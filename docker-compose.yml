@@ -1,0 +1,23 @@
+services:
+  mysqldb:
+    image: mysql:latest
+    container_name: mysqlwarehouse
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: trabajodegrado
+      MYSQL_USER: veli
+      MYSQL_PASSWORD: mysql
+
+  spring-app:
+    build: .
+    container_name: spring-app
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mysqldb
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/trabajodegrado
+      SPRING_DATASOURCE_USERNAME: veli
+      SPRING_DATASOURCE_PASSWORD: mysql
